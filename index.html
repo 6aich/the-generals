@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Generals – World Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0b0f1a;
+  color:#e5e7eb;
+}
+header{
+  background:#020617;
+  padding:25px;
+  text-align:center;
+}
+header h1{
+  margin:0;
+  font-size:40px;
+}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
+}
+h2{color:#38bdf8;}
+.box{
+  background:#020617;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+iframe{
+  width:100%;
+  height:450px;
+  border-radius:10px;
+  border:none;
+}
+input, button{
+  padding:10px;
+  border-radius:6px;
+  border:none;
+  font-size:16px;
+}
+button{
+  background:#38bdf8;
+  font-weight:bold;
+  cursor:pointer;
+}
+footer{
+  background:#020617;
+  text-align:center;
+  padding:15px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>THE GENERALS</h1>
+  <p>World Time • Weather • Intelligence</p>
+</header>
+
+<section>
+  <h2>🌍 Country Intelligence</h2>
+  <div class="box">
+    <input id="countryInput" placeholder="Enter country (e.g. Japan)">
+    <button onclick="loadCountry()">Load Info</button>
+    <p id="countryInfo">Waiting for country…</p>
+  </div>
+</section>
+
+<section>
+  <h2>⏰ Local Time</h2>
+  <div class="box">
+    <p id="time">Loading time…</p>
+  </div>
+</section>
+
+<section>
+  <h2>🌦️ Weather</h2>
+  <div class="box">
+    <p>Weather system ready (API key needed)</p>
+    <p id="weather">—</p>
+  </div>
+</section>
+
+<section>
+  <h2>🗺️ World Map</h2>
+  <iframe src="https://www.openstreetmap.org/export/embed.html"></iframe>
+</section>
+
+<section>
+  <h2>🔗 Your Custom Link Area</h2>
+  <div class="box">
+    <!-- YOU will code your link here later -->
+    <p>Reserved space for future website link.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 The Generals
+</footer>
+
+<script>
+// TIME
+function updateTime(){
+  const now = new Date();
+  document.getElementById("time").innerText =
+    now.toLocaleString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+// COUNTRY INFO
+async function loadCountry(){
+  const name = document.getElementById("countryInput").value;
+  if(!name) return;
+
+  const res = await fetch("https://restcountries.com/v3.1/name/" + name);
+  const data = await res.json();
+  const c = data[0];
+
+  document.getElementById("countryInfo").innerHTML = `
+    <strong>${c.name.common}</strong><br>
+    Capital: ${c.capital}<br>
+    Region: ${c.region}<br>
+    Population: ${c.population.toLocaleString()}
+  `;
+}
+</script>
+
+</body>
+</html>
