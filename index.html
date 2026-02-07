@@ -2,198 +2,131 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Generals – World Intelligence</title>
+<title>The Generals – Settings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#0b0f1a;
-  color:#e5e7eb;
-  transition: background 1s ease;
-}
-header{
-  background:#020617;
-  padding:25px;
-  text-align:center;
-}
-header h1{
-  margin:0;
-  font-size:40px;
-}
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:40px 20px;
-}
-h2{color:#38bdf8;}
-.box{
-  background:#020617;
-  padding:20px;
-  border-radius:10px;
-  margin-bottom:20px;
-}
-iframe{
-  width:100%;
-  height:450px;
-  border-radius:10px;
-  border:none;
-}
-input, button{
-  padding:10px;
-  border-radius:6px;
-  border:none;
-  font-size:16px;
-}
-button{
-  background:#38bdf8;
-  font-weight:bold;
-  cursor:pointer;
-}
-footer{
-  background:#020617;
-  text-align:center;
-  padding:15px;
-  font-size:14px;
-}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    transition: background 0.5s, color 0.5s;
+    background: #0b0f1a;
+    color: #e5e7eb;
+  }
+
+  header {
+    background: #020617;
+    padding: 20px;
+    text-align: center;
+  }
+
+  header h1 {
+    margin: 0;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: #38bdf8;
+    color: #000;
+    font-weight: bold;
+    margin: 5px;
+  }
+
+  /* Settings popup */
+  .settings-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #020617;
+    color: #e5e7eb;
+    padding: 30px;
+    border-radius: 15px;
+    display: none;
+    z-index: 1000;
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .settings-popup.light {
+    background: #fff;
+    color: #000;
+  }
+
+  .overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 500;
+  }
+
+  .option-buttons button {
+    display: block;
+    width: 80%;
+    margin: 5px auto;
+  }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>THE GENERALS</h1>
-  <p>World Time • Weather • Intelligence</p>
+  <h1>The Generals</h1>
+  <button onclick="openSettings()">⚙️ Settings</button>
 </header>
-  
 
-<section>
-  <h2></h2>
-  <div class="box">
-    <input id="countryInput" placeholder="Enter country (e.g. Japan)">
-    <button onclick="loadCountry()">Load Info</button>
-    <p id="countryInfo">Type country obove</p>
+<div class="overlay" id="overlay" onclick="closeSettings()"></div>
+
+<div class="settings-popup" id="settingsPopup">
+  <h2>Settings</h2>
+  <p>Background:</p>
+  <button onclick="setBackground('dark')">Dark</button>
+  <button onclick="setBackground('light')">Light</button>
+
+  <p>Options:</p>
+  <div class="option-buttons">
+    <button onclick="selectOption(1)">1</button>
+    <button onclick="selectOption(2)">2</button>
+    <button onclick="selectOption(3)">3</button>
+    <button onclick="selectOption(4)">4</button>
+    <button onclick="selectOption(5)">5</button>
   </div>
-</section>
 
-<section>
-  <h2></h2>
-  <div class="box">
-    <p id="time">Loading time…</p>
-  </div>
-</section>
-
-<section>
-  <h2></h2>
-  <div class="box">
-    <p id="weather">—</p>
-  </div>
-</section>
-
-<section>
-  <h2></h2>
-  <iframe src="https://www.openstreetmap.org/export/embed.html"></iframe>
-</section>
-
-<section>
-  <h2>🔗links</h2>
-  <div class="box">
-    <p><a href="https://6aich.github.io/earth-/">earth</a></p>
-    <p><a href="https://6aich.github.io/the-generals/">Back To Top</a></p>
-    <p><a href="https://www.netflix.com/au/">watch movies</a></p>
-    <a href="https://www.youtube.com" target="_blank" style="
-      display:inline-block;
-      padding:12px 18px;
-      background:#ff0000;
-      color:white;
-      text-decoration:none;
-      border-radius:8px;
-      font-weight:bold;
-    ">
-      ▶ YouTube
-    </a>
-  </div>
-</section>
-
-<h4>⭐️ ⭐️ ⭐️ ⭐️/⭐️ ⭐️ ⭐️ ⭐️ ⭐️ 
-wow.the earth spinner was amazing</h4>
-<p>nanabo</p>
-<h4>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ 
-i thought the word "earth" was just text, but when i clicked on it, a SPINNING earth came into view.</h4>
-<p>zooper</p>
-<h2>more</h2>
-
-
-<footer>
-  © 2012 The Generals
-</footer>
+  <button onclick="closeSettings()">Close</button>
+</div>
 
 <script>
-// TIME
-function updateTime(){
-  const now = new Date();
-  document.getElementById("time").innerText = now.toLocaleString();
-}
-setInterval(updateTime,1000);
-updateTime();
-
-// COUNTRY INFO + WEATHER
-async function loadCountry(){
-  const name = document.getElementById("countryInput").value;
-  if(!name) return;
-
-  // Country info
-  const res = await fetch("https://restcountries.com/v3.1/name/" + name);
-  const data = await res.json();
-  const c = data[0];
-
-  document.getElementById("countryInfo").innerHTML = `
-    <strong>${c.name.common}</strong><br>
-    Capital: ${c.capital}<br>
-    Region: ${c.region}<br>
-    Population: ${c.population.toLocaleString()}
-  `;
-
-  // Load weather for capital
-  loadWeather(c.capital);
+function openSettings() {
+  document.getElementById('settingsPopup').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
 }
 
-// WEATHER + BACKGROUND CHANGER
-async function loadWeather(city){
-  const apiKey = "b1b15e88fa797225412429c1c50c122a1"; // Demo key, replace with your own
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-  
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
+function closeSettings() {
+  document.getElementById('settingsPopup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
 
-    if(data.cod !== 200){
-      document.getElementById("weather").innerText = "Sorry, this weather can't show any weather";
-      document.body.style.background = "#0b0f1a";
-      return;
-    }
-
-    const temp = data.main.temp;
-    const description = data.weather[0].description;
-
-    document.getElementById("weather").innerText = `${description} | ${temp}°C`;
-
-    // BACKGROUND CHANGE
-    if(temp < 15){
-      document.body.style.background = "url('https://i.imgur.com/kQZ0EBl.jpg') no-repeat center center fixed";
-    } else if(temp > 30){
-      document.body.style.background = "url('https://i.imgur.com/9mM4SNa.jpg') no-repeat center center fixed";
-    } else if( temp > 15 {
-      document.body.style.background = "url('https://i.imgur.com/7pH0z9x.jpg') no-repeat center center fixed";
-    }
-    document.body.style.backgroundSize = "cover";
-
-  } catch(err){
-    console.error(err);
-    document.getElementById("weather").innerText = "Error fetching weather";
-    document.body.style.background = "#0b0f1a";
+function setBackground(mode) {
+  if(mode === 'dark') {
+    document.body.style.background = '#0b0f1a';
+    document.body.style.color = '#e5e7eb';
+    document.getElementById('settingsPopup').classList.remove('light');
+  } else {
+    document.body.style.background = '#fff';
+    document.body.style.color = '#000';
+    document.getElementById('settingsPopup').classList.add('light');
   }
+}
+
+function selectOption(num) {
+  alert('Option ' + num + ' selected!');
+  // You can add more functionality here based on the option
 }
 </script>
 
