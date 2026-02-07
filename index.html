@@ -2,121 +2,200 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>THE GENERALS</title>
+<title>The Generals – World Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: black;
-        color: white;
-        text-align: center;
-        transition: background 0.5s ease;
-    }
-    h1 { margin: 20px; }
-    .section {
-        margin: 20px;
-    }
-    input {
-        padding: 5px;
-        font-size: 16px;
-    }
-    button {
-        padding: 5px 10px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    #weather-img {
-        margin-top: 20px;
-        max-width: 400px;
-    }
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0b0f1a;
+  color:#e5e7eb;
+  transition: background 1s ease;
+}
+header{
+  background:#020617;
+  padding:25px;
+  text-align:center;
+}
+header h1{
+  margin:0;
+  font-size:40px;
+}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
+}
+h2{color:#38bdf8;}
+.box{
+  background:#020617;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+iframe{
+  width:100%;
+  height:450px;
+  border-radius:10px;
+  border:none;
+}
+input, button{
+  padding:10px;
+  border-radius:6px;
+  border:none;
+  font-size:16px;
+}
+button{
+  background:#38bdf8;
+  font-weight:bold;
+  cursor:pointer;
+}
+footer{
+  background:#020617;
+  text-align:center;
+  padding:15px;
+  font-size:14px;
+}
 </style>
 </head>
+
 <body>
-<h1>THE GENERALS</h1>
-<div class="section">
-    🌍 <strong>Country Intelligence</strong><br>
-    <input type="text" id="country-input" placeholder="Type country above">
-    <button onclick="getWeather()">Load Info</button>
-</div>
 
-<div class="section">
-    ⏰ <strong>Local Time</strong><br>
-    <span id="local-time"></span>
-</div>
+<header>
+  <h1>THE GENERALS</h1>
+  <p>World Time • Weather • Intelligence</p>
+</header>
+  
 
-<div class="section">
-    🌦️ <strong>Weather</strong><br>
-    <span id="weather-text">—</span><br>
-    <img id="weather-img" src="" alt="">
-</div>
+<section>
+  <h2>🌍 Country Intelligence</h2>
+  <div class="box">
+    <input id="countryInput" placeholder="Enter country (e.g. Japan)">
+    <button onclick="loadCountry()">Load Info</button>
+    <p id="countryInfo">Type country obove</p>
+  </div>
+</section>
 
-<div class="section">
-    🗺️ <strong>World Map</strong><br>
-    🔗 <a href="https://earth.google.com/web/" target="_blank">Link to Earth Spinner</a><br>
-    earth
-</div>
+<section>
+  <h2>⏰ Local Time</h2>
+  <div class="box">
+    <p id="time">Loading time…</p>
+  </div>
+</section>
 
-<div class="section">
-    <a href="#top">Back To Top</a><br>
-    watch movies<br>
-    watch videos
-</div>
+<section>
+  <h2>🌦️ Weather</h2>
+  <div class="box">
+    <p id="weather">—</p>
+  </div>
+</section>
+
+<section>
+  <h2>🗺️ World Map</h2>
+  <iframe src="https://www.openstreetmap.org/export/embed.html"></iframe>
+</section>
+
+<section>
+  <h2>🔗links</h2>
+  <div class="box">
+    <p><a href="https://6aich.github.io/earth-/">earth</a></p>
+    <p><a href="https://6aich.github.io/the-generals/">Back To Top</a></p>
+    <p><a href="https://www.netflix.com/au/">watch movies</a></p>
+    <a href="https://www.youtube.com" target="_blank" style="
+      display:inline-block;
+      padding:12px 18px;
+      background:#ff0000;
+      color:white;
+      text-decoration:none;
+      border-radius:8px;
+      font-weight:bold;
+    ">
+      ▶ YouTube
+    </a>
+  </div>
+</section>
+
+<h4>⭐️ ⭐️ ⭐️ ⭐️/⭐️ ⭐️ ⭐️ ⭐️ ⭐️ 
+wow.the earth spinner was amazing</h4>
+<p>nanabo</p>
+<h4>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ 
+i thought the word "earth" was just text, but when i clicked on it, a SPINNING earth came into view.</h4>
+<p>zooper</p>
+<h2>more</h2>
+<p>to view more reviews, pay login and pay $500 every hour</p>
+
+<footer>
+  © 2012 The Generals
+</footer>
 
 <script>
-const weatherImg = document.getElementById("weather-img");
-const weatherText = document.getElementById("weather-text");
-const localTime = document.getElementById("local-time");
+// TIME
+function updateTime(){
+  const now = new Date();
+  document.getElementById("time").innerText = now.toLocaleString();
+}
+setInterval(updateTime,1000);
+updateTime();
 
-// Update local time every second
-setInterval(() => {
-    const now = new Date();
-    localTime.textContent = now.toLocaleString();
-}, 1000);
+// COUNTRY INFO + WEATHER
+async function loadCountry(){
+  const name = document.getElementById("countryInput").value;
+  if(!name) return;
 
-function getWeather() {
-    const country = document.getElementById("country-input").value.trim();
-    if (!country) {
-        alert("Please type a country name!");
-        return;
+  // Country info
+  const res = await fetch("https://restcountries.com/v3.1/name/" + name);
+  const data = await res.json();
+  const c = data[0];
+
+  document.getElementById("countryInfo").innerHTML = `
+    <strong>${c.name.common}</strong><br>
+    Capital: ${c.capital}<br>
+    Region: ${c.region}<br>
+    Population: ${c.population.toLocaleString()}
+  `;
+
+  // Load weather for capital
+  loadWeather(c.capital);
+}
+
+// WEATHER + BACKGROUND CHANGER
+async function loadWeather(city){
+  const apiKey = "b1b15e88fa797225412429c1c50c122a1"; // Demo key, replace with your own
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if(data.cod !== 200){
+      document.getElementById("weather").innerText = "Sorry, this weather can't show any weather";
+      document.body.style.background = "#0b0f1a";
+      return;
     }
 
-    // Fetch weather using OpenWeatherMap API
-    const apiKey = "b1b15e88fa797225412429c1c50c122a1"; // Demo key
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${country}&units=metric&appid=${apiKey}`;
+    const temp = data.main.temp;
+    const description = data.weather[0].description;
 
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        if (data.cod !== 200) {
-            weatherText.textContent = "Sorry, this weather can't show any weather";
-            weatherImg.src = "";
-            document.body.style.background = "black";
-            return;
-        }
+    document.getElementById("weather").innerText = `${description} | ${temp}°C`;
 
-        const temp = data.main.temp;
-        weatherText.textContent = `${data.weather[0].description} | ${temp}°C`;
+    // BACKGROUND CHANGE
+    if(temp < 15){
+      document.body.style.background = "url('https://i.imgur.com/kQZ0EBl.jpg') no-repeat center center fixed";
+    } else if(temp > 30){
+      document.body.style.background = "url('https://i.imgur.com/9mM4SNa.jpg') no-repeat center center fixed";
+    } else if( temp > 15 {
+      document.body.style.background = "url('https://i.imgur.com/7pH0z9x.jpg') no-repeat center center fixed";
+    }
+    document.body.style.backgroundSize = "cover";
 
-        // Change background depending on temperature
-        if (temp < 15) {
-            document.body.style.background = "url('https://i.imgur.com/kQZ0EBl.jpg') no-repeat center center fixed";
-        } else if (temp > 30) {
-            document.body.style.background = "url('https://i.imgur.com/9mM4SNa.jpg') no-repeat center center fixed";
-        } else {
-            document.body.style.background = "url('https://i.imgur.com/7pH0z9x.jpg') no-repeat center center fixed";
-        }
-        document.body.style.backgroundSize = "cover";
-
-        // Show weather icon
-        weatherImg.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-    })
-    .catch(err => {
-        console.error(err);
-        weatherText.textContent = "Error fetching weather";
-        weatherImg.src = "";
-        document.body.style.background = "black";
-    });
+  } catch(err){
+    console.error(err);
+    document.getElementById("weather").innerText = "Error fetching weather";
+    document.body.style.background = "#0b0f1a";
+  }
 }
 </script>
+
 </body>
 </html>
