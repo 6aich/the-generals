@@ -2,41 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weather Background</title>
+<title>THE GENERALS</title>
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.5s;
-    background-size: cover;
-    background-position: center;
-    font-family: Arial, sans-serif;
-    color: white;
-  }
-  input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 20px;
-  }
-  #tempDisplay {
-    font-size: 24px;
-    margin-top: 10px;
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: black;
+        color: white;
+        text-align: center;
+        transition: background 0.5s ease;
+    }
+    h1 { margin: 20px; }
+    .section {
+        margin: 20px;
+    }
+    input {
+        padding: 5px;
+        font-size: 16px;
+    }
+    button {
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #weather-img {
+        margin-top: 20px;
+        max-width: 400px;
+    }
 </style>
 </head>
 <body>
-<h1>Weather Background</h1>
-<input type="text" id="countryInput" placeholder="Enter country name">
-<div id="tempDisplay"></div>
+<h1>THE GENERALS</h1>
+<div class="section">
+    🌍 <strong>Country Intelligence</strong><br>
+    <input type="text" id="country-input" placeholder="Type country above">
+    <button onclick="getWeather()">Load Info</button>
+</div>
+
+<div class="section">
+    ⏰ <strong>Local Time</strong><br>
+    <span id="local-time"></span>
+</div>
+
+<div class="section">
+    🌦️ <strong>Weather</strong><br>
+    <span id="weather-text">—</span><br>
+    <img id="weather-img" src="" alt="">
+</div>
+
+<div class="section">
+    🗺️ <strong>World Map</strong><br>
+    🔗 <a href="https://earth.google.com/web/" target="_blank">Link to Earth Spinner</a><br>
+    earth
+</div>
+
+<div class="section">
+    <a href="#top">Back To Top</a><br>
+    watch movies<br>
+    watch videos
+</div>
 
 <script>
-  // Base64 images
-  const hotImage = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxESEhUSEhMSEBAXFhUVEBAVEBUXEBgQFREWFhUVGBgYHiggGBolGxUVITEhJSktLi4vFx8zOD8sNygtLisBCgoKDg0OGhAQGzElICUrLS0tLzcrLSstLTUvKy0rLy0tLi0tLS0tLzArLS0v
+const weatherImg = document.getElementById("weather-img");
+const weatherText = document.getElementById("weather-text");
+const localTime = document.getElementById("local-time");
+
+// Update local time every second
+setInterval(() => {
+    const now = new Date();
+    localTime.textContent = now.toLocaleString();
+}, 1000);
+
+function getWeather() {
+    const country = document.getElementById("country-input").value.trim();
+    if (!country) {
+        alert("Please type a country name!");
+        return;
+    }
+
+    // Fetch weather using OpenWeatherMap API
+    const apiKey = "b1b15e88fa797225412429c1c50c122a1"; // Demo key
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${country}&units=metric&appid=${apiKey}`;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        if (data.cod !== 200) {
+            weatherText.textContent = "Sorry, this weather can't show any weather";
+            weatherImg.src = "";
+            document.body.style.background = "black";
+            return;
+        }
+
+        const temp = data.main.temp;
+        weatherText.textContent = `${data.weather[0].description} | ${temp}°C`;
+
+        // Change background depending on temperature
+        if (temp < 15) {
+            document.body.style.background = "url('https://i.imgur.com/kQZ0EBl.jpg') no-repeat center center fixed";
+        } else if (temp > 30) {
+            document.body.style.background = "url('https://i.imgur.com/9mM4SNa.jpg') no-repeat center center fixed";
+        } else {
+            document.body.style.background = "url('https://i.imgur.com/7pH0z9x.jpg') no-repeat center center fixed";
+        }
+        document.body.style.backgroundSize = "cover";
+
+        // Show weather icon
+        weatherImg.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    })
+    .catch(err => {
+        console.error(err);
+        weatherText.textContent = "Error fetching weather";
+        weatherImg.src = "";
+        document.body.style.background = "black";
+    });
+}
+</script>
+</body>
+</html>
