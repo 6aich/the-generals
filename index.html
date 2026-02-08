@@ -2,95 +2,98 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Generals – Settings</title>
+<title>The Generals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    transition: background 0.5s, color 0.5s;
-    background: #0b0f1a;
-    color: #e5e7eb;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
 
-  header {
-    background: #020617;
-    padding: 20px;
-    text-align: center;
-  }
+/* iframe = your existing site */
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 
-  header h1 {
-    margin: 0;
-  }
+/* settings button */
+#settingsBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
+  font-size: 22px;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: #38bdf8;
+}
 
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    border: none;
-    background: #38bdf8;
-    color: #000;
-    font-weight: bold;
-    margin: 5px;
-  }
+/* overlay */
+#settingsOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 998;
+}
 
-  /* Settings popup */
-  .settings-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #020617;
-    color: #e5e7eb;
-    padding: 30px;
-    border-radius: 15px;
-    display: none;
-    z-index: 1000;
-    min-width: 250px;
-    text-align: center;
-  }
+/* settings panel */
+#settingsPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #020617;
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  display: none;
+  z-index: 999;
+  width: 260px;
+  text-align: center;
+}
 
-  .settings-popup.light {
-    background: #fff;
-    color: #000;
-  }
+#settingsPanel button {
+  margin: 5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
 
-  .overlay {
-    position: fixed;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    z-index: 500;
-  }
-
-  .option-buttons button {
-    display: block;
-    width: 80%;
-    margin: 5px auto;
-  }
+.options button {
+  width: 40px;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <h1>The Generals</h1>
-  <button onclick="openSettings()">⚙️ Settings</button>
-</header>
+<!-- YOUR ORIGINAL SITE -->
+<iframe id="siteFrame" src="https://6aich.github.io/the-generals/"></iframe>
 
-<div class="overlay" id="overlay" onclick="closeSettings()"></div>
+<!-- SETTINGS BUTTON -->
+<button id="settingsBtn">⚙️</button>
 
-<div class="settings-popup" id="settingsPopup">
+<!-- SETTINGS UI -->
+<div id="settingsOverlay"></div>
+
+<div id="settingsPanel">
   <h2>Settings</h2>
-  <p>Background:</p>
-  <button onclick="setBackground('dark')">Dark</button>
-  <button onclick="setBackground('light')">Light</button>
 
-  <p>Options:</p>
-  <div class="option-buttons">
+  <p>Theme</p>
+  <button onclick="setTheme('dark')">Dark</button>
+  <button onclick="setTheme('light')">Light</button>
+
+  <p>Options</p>
+  <div class="options">
     <button onclick="selectOption(1)">1</button>
     <button onclick="selectOption(2)">2</button>
     <button onclick="selectOption(3)">3</button>
@@ -102,31 +105,33 @@
 </div>
 
 <script>
-function openSettings() {
-  document.getElementById('settingsPopup').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-}
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsPanel = document.getElementById("settingsPanel");
+const settingsOverlay = document.getElementById("settingsOverlay");
+const frame = document.getElementById("siteFrame");
+
+settingsBtn.onclick = () => {
+  settingsPanel.style.display = "block";
+  settingsOverlay.style.display = "block";
+};
 
 function closeSettings() {
-  document.getElementById('settingsPopup').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
+  settingsPanel.style.display = "none";
+  settingsOverlay.style.display = "none";
 }
 
-function setBackground(mode) {
-  if(mode === 'dark') {
-    document.body.style.background = '#0b0f1a';
-    document.body.style.color = '#e5e7eb';
-    document.getElementById('settingsPopup').classList.remove('light');
+settingsOverlay.onclick = closeSettings;
+
+function setTheme(mode) {
+  if (mode === "light") {
+    frame.style.filter = "invert(1) hue-rotate(180deg)";
   } else {
-    document.body.style.background = '#fff';
-    document.body.style.color = '#000';
-    document.getElementById('settingsPopup').classList.add('light');
+    frame.style.filter = "none";
   }
 }
 
 function selectOption(num) {
-  alert('Option ' + num + ' selected!');
-  // You can add more functionality here based on the option
+  alert("Option " + num + " selected");
 }
 </script>
 
