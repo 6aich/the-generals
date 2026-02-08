@@ -2,78 +2,98 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login to The Generals</title>
+<title>The Generals – World Intelligence</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#0b0f1a;
+  color:#e5e7eb;
+  transition: background 1s ease;
 }
-
-body {
-  /* Fullscreen background image */
-  background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."); /* shortened for readability */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+header{
+  background:#020617;
+  padding:25px;
+  text-align:center;
 }
-
-/* container for input and button */
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+header h1{
+  margin:0;
+  font-size:40px;
 }
-
-/* input styling */
-input {
-  width: 300px;
-  padding: 15px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
 }
-
-/* button styling */
-button {
-  padding: 12px 25px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: #38bdf8;
-  color: #000;
-  font-weight: bold;
+h2{color:#38bdf8;}
+.box{
+  background:#020617;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
 }
+iframe{
+  width:100%;
+  height:450px;
+  border-radius:10px;
+  border:none;
+}
+button{
+  background:#38bdf8;
+  font-weight:bold;
+  cursor:pointer;
+}
+footer{
+  background:#020617;
+  text-align:center;
+  padding:15px;
+  font-size:14px;
+}
+  <button id="settingsBtn">⚙️</button>
 </style>
 </head>
+
 <body>
 
-<div class="login-container">
-  <input type="text" id="username" placeholder="Enter your username">
-  <button onclick="login()">Login</button>
-</div>
+<header>
+  <h1>Reviews</h1>
+</header>
 
-<script>
-function login() {
-  // You can add validation here if you want
-  window.location.href = "https://6aich.github.io/the-generals/#top";
-}
+<section>
+  <div class="box">
+    <h4>⭐️ ⭐️ ⭐️ ⭐️ / ⭐️ ⭐️ ⭐️ ⭐️ ⭐️</h4>
+    <p>wow. The Earth Spinner was amazing</p>
+    <p>– nanabo</p>
+  </div>
 
-// Allow pressing Enter to login
-document.getElementById("username").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    login();
-  }
-});
-</script>
+  <div class="box">
+    <h4>⭐️⭐️⭐️⭐️⭐️ / ⭐️⭐️⭐️⭐️⭐️</h4>
+    <p>The Generals. What a good name</p>
+    <p>– prop8</p>
+  </div>
+
+  <div class="box">
+    <h4>⭐️⭐️⭐️⭐️ / ⭐️⭐️⭐️⭐️⭐️</h4>
+    <p>The Generals really helped me with my kid, who always bugs me when I work. This was a fun thing to keep him busy for some time</p>
+    <p>– cruelburger785</p>
+  </div>
+
+  <div class="box">
+    <h4>⭐️⭐️⭐️⭐️⭐️ / ⭐️⭐️⭐️⭐️⭐️</h4>
+    <p>I really don't know how people come up with such ideas</p>
+    <p>– poliestarprep</p>
+  </div>
+
+  <div class="box">
+    <p>No more reviews</p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 World Intelligence
+</footer>
 
 </body>
 </html>
