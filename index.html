@@ -2,137 +2,77 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Generals</title>
+<title>Login to The Generals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
   font-family: Arial, sans-serif;
 }
 
-/* iframe = your existing site */
-iframe {
-  width: 100%;
-  height: 100%;
+body {
+  /* Fullscreen background image */
+  background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."); /* shortened for readability */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* container for input and button */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* input styling */
+input {
+  width: 300px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
   border: none;
+  outline: none;
 }
 
-/* settings button */
-#settingsBtn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 1000;
-  font-size: 22px;
-  padding: 10px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: #38bdf8;
-}
-
-/* overlay */
-#settingsOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  z-index: 998;
-}
-
-/* settings panel */
-#settingsPanel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #020617;
-  color: white;
-  padding: 25px;
-  border-radius: 15px;
-  display: none;
-  z-index: 999;
-  width: 260px;
-  text-align: center;
-}
-
-#settingsPanel button {
-  margin: 5px;
-  padding: 8px 14px;
-  border-radius: 8px;
+/* button styling */
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-}
-
-.options button {
-  width: 40px;
+  background-color: #38bdf8;
+  color: #000;
+  font-weight: bold;
 }
 </style>
 </head>
-
 <body>
 
-<!-- YOUR ORIGINAL SITE -->
-<iframe id="siteFrame" src="https://6aich.github.io/the-generals/"></iframe>
-
-<!-- SETTINGS BUTTON -->
-<button id="settingsBtn">⚙️</button>
-
-<!-- SETTINGS UI -->
-<div id="settingsOverlay"></div>
-
-<div id="settingsPanel">
-  <h2>Settings</h2>
-
-  <p>Theme</p>
-  <button onclick="setTheme('dark')">Dark</button>
-  <button onclick="setTheme('light')">Light</button>
-
-  <p>Options</p>
-  <div class="options">
-    <button onclick="selectOption(1)">1</button>
-    <button onclick="selectOption(2)">2</button>
-    <button onclick="selectOption(3)">3</button>
-    <button onclick="selectOption(4)">4</button>
-    <button onclick="selectOption(5)">5</button>
-  </div>
-
-  <button onclick="closeSettings()">Close</button>
+<div class="login-container">
+  <input type="text" id="username" placeholder="Enter your username">
+  <button onclick="login()">Login</button>
 </div>
 
 <script>
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsPanel = document.getElementById("settingsPanel");
-const settingsOverlay = document.getElementById("settingsOverlay");
-const frame = document.getElementById("siteFrame");
-
-settingsBtn.onclick = () => {
-  settingsPanel.style.display = "block";
-  settingsOverlay.style.display = "block";
-};
-
-function closeSettings() {
-  settingsPanel.style.display = "none";
-  settingsOverlay.style.display = "none";
+function login() {
+  // You can add validation here if you want
+  window.location.href = "https://6aich.github.io/the-generals/#top";
 }
 
-settingsOverlay.onclick = closeSettings;
-
-function setTheme(mode) {
-  if (mode === "light") {
-    frame.style.filter = "invert(1) hue-rotate(180deg)";
-  } else {
-    frame.style.filter = "none";
+// Allow pressing Enter to login
+document.getElementById("username").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    login();
   }
-}
-
-function selectOption(num) {
-  alert("Option " + num + " selected");
-}
+});
 </script>
 
 </body>
